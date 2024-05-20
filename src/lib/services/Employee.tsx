@@ -12,7 +12,18 @@ export const ApiCreateEmployee = async (employee: any) => {
     return res;
 };
 
-export const ApiGetOneEmployee = async (id: any) => {
-    const res = await axios.post(`${API_BE}/${id}`);
+export const ApiUpdateEmployee = async (id: any, employee: any) => {
+    const res = await axios.put(`${API_BE}/${id}`, employee);
     return res;
+};
+
+export const ApiDeleteEmployee = async (id: string) => {
+    const res = await axios.delete(`${API_BE}/${id}`);
+    return res;
+};
+
+
+export const ApiGetOneEmployee = async (id: any) => {
+    const res = await axios.get(`${API_BE}/${id}`);
+    return res.data;
 };

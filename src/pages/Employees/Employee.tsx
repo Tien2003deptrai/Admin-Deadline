@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { AuthUser } from "../../contexts/AuthContext";
-import { ApiGetEmployee } from "../../lib/services/Employee";
+import { ApiDeleteEmployee, ApiGetEmployee } from "../../lib/services/Employee";
 import { IEmployee } from "../../utils/IEmployee";
+import { sendToast, sendToastError } from "../../configs/Toasts";
 
 const Employee = () => {
-    const [employees, setEmployees] = useState([]);
+    const [employees, setEmployees] = useState<IEmployee[]>([])
     const [fetchError, setFetchError] = useState(null);
     const { navigate } = AuthUser();
 
@@ -17,6 +18,19 @@ const Employee = () => {
                 setFetchError(err);
             })
     }, [])
+
+    const handleDeleteEmployee = async (id: any) => {
+        try {
+            await ApiDeleteEmployee(id);
+            sendToast('Deleted employee successfully.');
+
+            const updatedEmployees = employees.filter(employee => employee._id !== id);
+            setEmployees(updatedEmployees);
+
+        } catch (error) {
+            sendToastError('Failed to delete employee.');
+        }
+    }
 
     return (
         <div>
@@ -47,6 +61,9 @@ const Employee = () => {
                                     <th scope="col" className="px-6 py-3">
                                         Pay Rate
                                     </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Action
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,6 +77,10 @@ const Employee = () => {
                                         <td className="px-6 py-4">${employee.paidToDate}</td>
                                         <td className="px-6 py-4">${employee.paidLastYear}</td>
                                         <td className="px-6 py-4">${employee.payRate}</td>
+                                        <td className="px-6 py-4">
+                                            <button onClick={() => navigate(`/employees/update/${employee._id}`)} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">Update</button>
+                                            <button onClick={() => handleDeleteEmployee(employee._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

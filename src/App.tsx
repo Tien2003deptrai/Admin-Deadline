@@ -12,6 +12,7 @@ import AddUser from './pages/Users/AddUser'
 import AddEmployee from './pages/Employees/AddEmployee'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import UpdateEmployee from './pages/Employees/UpdateEmployee'
 
 function App() {
 	return (
@@ -27,6 +28,7 @@ function App() {
 					<Route path="products/update/:id" element={<UpdateProduct />} />
 					<Route path="employees" element={<Employee />} />
 					<Route path="employees/add" element={<AddEmployee />} />
+					<Route path="employees/update/:id" element={<UpdateEmployee />} />
 					<Route path="users" element={<User />} />
 					<Route path="users/add" element={<AddUser />} />
 				</Route>
